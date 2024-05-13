@@ -1,0 +1,33 @@
+name: Build Windows Node.js Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Package application
+        run: npm run package
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-exe
+          path: ./dist/app.exe
